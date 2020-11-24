@@ -23,8 +23,6 @@ use std::{
 //Mutex - A mutual exclusive primitive useful for protecting shared data
 // -- Mutex lock returns guard which stops rewrite of value until released
 
-// async/await
-
 pub struct Sender<T> {
     shared: Arc<Shared<T>>,
 }
