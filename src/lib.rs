@@ -3,6 +3,20 @@ use std::{
     sync::{Arc, Condvar, Mutex}
 };
 
+// Flavours
+// - Synchronous: Channel were send() can block. Limited capacity. Bounded
+// -- Mutex + Condvar: VecDeque - Block if full
+// -- Or with: Atomic VecDeque/Atomic Que - Update them atomically + thread::park + thread::Thread::notify
+// - Asynchronous: Where send() cannot block. Unbounded
+// -- Mutex + Condvar + VecDeque
+// -- Or with: Mutex + Condvar + LinkedList, linked list of atomic VecDeque<T>
+// -- Atomic block linked list, linked list of atomic VecDeque<T>
+// --- Check this shit out in crossbeam
+// - Rendezvous: Synchronous with capacity is 0. Used for thread synchronization.
+// -- Can only send to a thread waiting. Used with a barrier
+// - One-Shot: Channels you use once at any capacity. Only one call to send() in practice
+// Examples: https://github.com/crossbeam-rs/crossbeam/tree/master/crossbeam-channel/src
+
 //Arc - A thread-safe reference counting pointer. 'Arc' stands for 'Atomically Reference Counted'
 // -- Used across thread boundaries
 // -- Ensures that Sender and Receiver in this context are linked
